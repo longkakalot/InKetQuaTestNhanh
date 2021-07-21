@@ -1,0 +1,182 @@
+﻿@model IEnumerable<KetQuaVm>
+
+@{
+    var stt = 1;
+}
+
+<div class="float-right">
+    <button id="btnXemDanhSachChuaIn" class="btn btn-primary">Xem danh sách</button>
+</div>
+<table id="tblDanhSachCoKetQuaChuaIn" class="table display table-striped table-bordered" style="width:100%; font-size: 13px; color: black">
+    <thead>
+        <tr class="text-center">
+            <th>STT</th>
+            <th>Mã Y tế</th>
+            <th>Họ tên</th>
+            <th>Năm sinh</th>
+            <th>Giới tính</th>
+            <th>Điện thoại</th>
+
+            <th>Tên chỉ định</th>
+            <th>Thời gian kết quả</th>
+            <th>Đối tượng</th>
+            <th>Kết quả</th>
+            <th style="width: 10%">#</th>
+            @*<th style="width: 5%">Id</th>*@
+            @*<th style="width: 10%">Barcode</th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(m => m.ThoiGianLayMau))
+        {
+            <tr>
+                <td>@(stt++)</td>
+                <td style="color: blue; font-weight: bold">@item.MaYTe</td>
+                <td style="color: blue; font-weight: bold">@item.TenBenhNhan</td>
+                <td style="color: blue; font-weight: bold">@item.NamSinh</td>
+                <td>
+                    @if (item.GioiTinh == "F")
+                    {
+                        <p>Nữ</p>
+                    }
+                    else
+                    {
+                        <p>Nam</p>
+                    }
+                </td>
+                <td>@item.SoDienThoai</td>
+                <td>@item.DichVu</td>
+                <td>@item.ThoiGianLayMau</td>
+                <td>
+                    @if (item.ThanhToan == 0)
+                    {
+                        <span class="btn btn-info">Theo Yêu cầu</span>
+                    }
+                </td>
+                <td>
+                    @if (item.KetQua == false)
+                    {
+                        <span class="btn btn-primary">
+                            Âm tính
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="btn btn-danger">
+                            Dương tính
+                        </span>
+                    }
+
+
+                </td>
+                <td>
+                    @if (item.ThanhToan == 0)
+                    {
+                        <i class="fas fa-upload"
+                           style="font-size: 24px; color: green"
+                           title="Upload kết quả"
+                           onclick="UploadKetQua(@item.Id)">
+                        </i>
+                        <span style="font-size: 24px; margin-right: 10px; margin-left: 10px; font-weight:bold; color: black">|</span>
+                        <i class="fas fa-print"
+                           title="In kết quả"
+                           style="font-size: 24px; color: blue"
+                           onclick="InKetQua(@item.Id)">
+                        </i>
+
+                    }
+                    else
+                    {
+                        <i class="fas fa-upload"
+                           style="font-size: 24px; color: green"
+                           title="Upload kết quả"
+                           onclick="UploadKetQua(@item.Id)">
+                        </i>
+                    }
+                </td>
+
+                @*<td>@item.Id</td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{
+    <script>
+        function UploadKetQua(id) {
+            $.ajax({
+                type: "GET",
+                url: "/Home/UploadKetQua",
+                //data: JSON.stringify(objArr),
+                data: { 'id': id },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (responses) {
+                    if (responses === 1 || responses === "1") {
+                        GetListKetQuaChuaIn();
+                        GetListKetQuaDaIn();
+                    } else {
+                        swal.fire("Upload kết quả bị lỗi");
+                    }
+                },
+                failure: function (response) {
+                    alert("failure: UploadKetQua _GetListCoKqChuaIn" + response.responseText);
+                },
+                error: function (response) {
+                    alert("error: UploadKetQua _GetListCoKqChuaIn" + response.responseText);
+                }
+            });
+        }
+
+        function print(doc) {
+            //alert(doc);
+            var objFra = document.createElement('iframe');   // Create an IFrame.
+            objFra.style.visibility = "hidden";    // Hide the frame.
+            objFra.src = doc;                      // Set source.
+            document.body.appendChild(objFra);  // Add the frame to the web page.
+            objFra.contentWindow.focus();       // Set focus.
+            objFra.contentWindow.print();      // Print it.
+        };
+
+        function InKetQua(id) {
+            $.ajax({
+                type: "GET",
+                url: "/Home/InKetQua",
+                //data: JSON.stringify(objArr),
+                data: { 'id': id },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (responses) {
+                    alert(responses);
+                    if (responses === 0 || responses === "0") {
+                        swal.fire("Lỗi khi lấy dữ liệu", "", "warning");
+
+                    } else {
+                        print("/ReportPrint/" + responses);
+                        GetListKetQuaChuaIn();
+                        GetListKetQuaDaIn();
+                    }
+                },
+                failure: function (responses) {
+                    alert("failure: InKetQua" + responses.responseText);
+                },
+                error: function (responses) {
+                    alert("error: InKetQua" + responses.responseText);
+                }
+            });
+        }
+
+        
+
+        $(document).ready(function () {
+            $('#tblDanhSachCoKetQuaChuaIn').DataTable();
+
+            $("#btnXemDanhSachChuaIn").click(function () {
+                GetListKetQuaChuaIn();
+                GetListKetQuaDaIn();
+            });
+        });
+    </script>
+}

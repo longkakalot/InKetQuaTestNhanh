@@ -1,0 +1,143 @@
+﻿@model IEnumerable<KetQuaXnImport>
+
+@{
+    var stt = 1;
+}
+
+<div class="float-right">
+    <button id="btnXuatExcel" class="btn btn-primary">Xuất excel</button>
+</div>
+<table id="tblBaoCao" class="table display table-striped table-bordered" style="width:100%; font-size: 13px; color: black">
+    <thead>
+        <tr class="text-center">
+            <th>STT</th>
+            <th>Họ tên</th>
+            <th>Điện thoại</th>
+            <th>Năm sinh</th>
+            <th>Giới tính</th>
+            <th>Địa chỉ</th>
+            <th>Kết quả</th>
+            <th>Kỹ thuật XN</th>
+            <th>Lý do xét nghiệm</th>
+            <th>Loại mẫu</th>
+            <th>Thời gian lấy mẫu</th>
+            <th>Thời gian kết quả</th>           
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(m => m.ThoiGianKetQua))
+        {
+            <tr>
+                <td>@(stt++)</td>
+                <td style="color: blue; font-weight: bold">@item.HoVaTen</td>
+                <td style="color: blue; font-weight: bold">@item.SoDienThoai</td>
+                <td style="color: blue; font-weight: bold">@item.NamSinh</td>
+                <td>
+                    @if (item.GioiTinh == "1")
+                    {
+                        <p>Nữ</p>
+                    }
+                    else
+                    {
+                        <p>Nam</p>
+                    }
+                </td>
+                <td>@item.DiaChi</td>
+                <td>
+                    @if (item.KetQua == "2")
+                    {
+                        <span class="btn btn-primary">
+                            Âm tính
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="btn btn-danger">
+                            Dương tính
+                        </span>
+                    }
+                </td>
+                <td>
+                    @if (item.KyThuatXetNghiem == "1")
+                    {
+                        <span>Xét nghiệm nhanh kháng nguyên</span>
+                    }
+                    else
+                    {
+                        <span>RT-PCR</span>
+
+                    }
+                </td>
+                <td>
+                    @if(item.LyDoXetNghiem == "1")
+                {
+                    <span>Thường quy</span>
+                }
+                else
+                {
+                    <span>Khẩn cấp</span>
+                }
+
+                </td>
+                <td>
+                    @if (item.LoaiMau == "0")
+                    {
+                        <span>Mẫu đơn</span>
+                    }
+                    else
+                    {
+                        <span>Mẫu gộp</span>
+                    }
+                </td>
+                <td>
+                    @item.ThoiGianLayMau
+                </td>
+                <td>@item.ThoiGianKetQua</td>
+
+                @*<td>@item.Id</td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{
+    <script>               
+        function XuatExcel() {
+            var tuNgay = $("#dtTuNgay").val();
+            var denNgay = $("#dtDenNgay").val();
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/XuatExcel",
+                //data: JSON.stringify(obj),
+                data: { 'tuNgay': tuNgay, 'denNgay': denNgay },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (response) {
+                    //alert(response);
+                    if (response === 0 || response === "0") {
+                        swal.fire("Lỗi khi xuất excel");
+                        return false;
+                    } else {                        
+                        window.location.href = "/Excel/" + response;
+                    }
+                },
+                failure: function (response) {
+                    swal.fire("GetKhoaPhongChiTiet (failure): " + response);
+                },
+                error: function (response) {
+                    swal.fire("GetKhoaPhongChiTiet (error): " + response);
+                }
+            });
+        }
+        $(document).ready(function () {
+            $('#tblBaoCao').DataTable();
+
+            $("#btnXuatExcel").click(function () {
+                XuatExcel();
+            });
+        });
+    </script>
+}
