@@ -2,6 +2,7 @@
 	, MaYTe
 	,SoDienThoai
 	,NamSinh
+	,CMND_CCCD = ''
 	,GioiTinh
 	,DiaChi
     ,KetQua

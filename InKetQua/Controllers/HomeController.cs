@@ -224,7 +224,7 @@ namespace InKetQua.Controllers
                 //string downloadUrl = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, excelName);
                 
                 //Sheet Chưa khai báo
-                var sheetName = "abc";
+                var sheetName = "ket qua";
                 //var path = "TrongNgay_" + DateTime.Now.ToString("dd-MM-yy_HH-mm-ss-ffff") + ".xlsx";
 
                 var pathToFile = Path.Combine(folder, excelName);

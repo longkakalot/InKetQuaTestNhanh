@@ -12,7 +12,8 @@ namespace InKetQua.Models
         //public string MaYTe { get; set; }
         public string SoDienThoai { get; set; }
         public string NamSinh { get; set; }
-        public string GioiTinh { get; set; }
+        public string CMND_CCCD { get; set; }
+        public string GioiTinh { get; set; }        
         public string DiaChi { get; set; }
         public string KetQua { get; set; }
         public string KyThuatXetNghiem { get; set; }

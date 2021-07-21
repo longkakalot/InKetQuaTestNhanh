@@ -1,7 +1,7 @@
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\InKetQua.exe
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\css\MyCss.css
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\css\site.css
-G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\Excel\20210721101324233.xlsx
+G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\Excel\20210721141623852.xlsx
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\favicon.ico
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\img\logo.png
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Release\netcoreapp3.1\PubTmp\Out\wwwroot\img\logoSmall.png
