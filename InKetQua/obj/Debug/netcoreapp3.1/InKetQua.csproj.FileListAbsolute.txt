@@ -98,3 +98,4 @@ G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\bin\Debug\netcoreapp3.1\S
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\obj\Debug\netcoreapp3.1\InKetQua.csproj.AssemblyReference.cache

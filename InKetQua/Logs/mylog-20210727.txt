@@ -2,3 +2,6 @@
 2021-07-27T08:53:25.6075552+07:00  [INF] Hosting environment: "Development" (c3307c92)
 2021-07-27T08:53:25.6092803+07:00  [INF] Content root path: "G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua" (b5d60022)
 2021-07-27T08:53:49.1316997+07:00 800000b5-0001-fd00-b63f-84710c7967bb [INF] G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua\wwwroot\ReportPrint\20210727_085347_522_AM.pdf (48a6da9e)
+2021-07-27T12:24:39.3082727+07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-07-27T12:24:39.3170000+07:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-07-27T12:24:39.3191913+07:00  [INF] Content root path: "G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua" (b5d60022)
