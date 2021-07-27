@@ -92,6 +92,18 @@ namespace InKetQua.Controllers
         {
             try
             {
+                string folder = _env.WebRootPath + "\\ReportPrint";
+
+                // Delete all files in a directory    
+                string[] files = Directory.GetFiles(folder);
+                foreach (string file in files)
+                {
+                    System.IO.File.Delete(file);
+                    //Console.WriteLine($"{file} is deleted.");
+                }
+
+
+
                 var tuNgay = DateTime.Now.ToString("yyyyMMdd");
                 var denNgay = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
 
@@ -128,6 +140,16 @@ namespace InKetQua.Controllers
         {
             try
             {
+                string folder = _env.WebRootPath + "\\ReportPrint";
+
+                // Delete all files in a directory    
+                string[] files = Directory.GetFiles(folder);
+                foreach (string file in files)
+                {
+                    System.IO.File.Delete(file);
+                    //Console.WriteLine($"{file} is deleted.");
+                }
+
                 var tuNgay1 = tuNgay.ToString("yyyyMMdd");
                 var denNgay1 = denNgay.AddDays(1).ToString("yyyyMMdd");
 

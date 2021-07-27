@@ -158,3 +158,8 @@
 2021-07-21T15:50:02.8036608+07:00 800000df-0000-f500-b63f-84710c7967bb [INF] G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\published\wwwroot\ReportPrint\20210721_035002_792_PM.pdf (eff187c0)
 2021-07-21T16:14:56.3523884+07:00 800001c1-0003-f700-b63f-84710c7967bb [INF] G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\published\wwwroot\ReportPrint\20210721_041456_337_PM.pdf (de4f7452)
 2021-07-21T16:15:02.3577992+07:00 800001c3-0003-f700-b63f-84710c7967bb [INF] G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\published\wwwroot\ReportPrint\20210721_041502_344_PM.pdf (08960c7d)
+2021-07-21T16:35:37.4520807+07:00  [INF] Application is shutting down... (90f52c38)
+2021-07-21T17:46:10.3886278+07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-07-21T17:46:10.3944014+07:00  [INF] Hosting environment: "Production" (c3307c92)
+2021-07-21T17:46:10.3944858+07:00  [INF] Content root path: "G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\published" (b5d60022)
+2021-07-21T18:07:09.5645712+07:00  [INF] Application is shutting down... (90f52c38)
