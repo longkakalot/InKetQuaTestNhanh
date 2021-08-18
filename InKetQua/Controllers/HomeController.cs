@@ -45,18 +45,60 @@ namespace InKetQua.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetListKetQuaChuaIn()
+        public async Task<IActionResult> GetListKetQuaChuaIn(string tenCongTy, string congSo2)
         {
             try
             {
-                var tuNgay = DateTime.Now.ToString("yyyyMMdd");
+                var tuNgay = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
                 var denNgay = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
 
-
                 var resultAwait = await _iKetQuaRepo.GetListKetQuaChuaIn(tuNgay, denNgay);
-                var result = resultAwait.ToList();
 
-                return PartialView("_GetListKetQuaChuaIn", result);
+                if (tenCongTy == "0" && congSo2 == "0") //ds không có hợp đồng, ko có số 2
+                {
+                    var result = resultAwait
+                    .Where(m => m.GhiChu is null || m.GhiChu.ToLower().Contains("nn") || m.GhiChu == "3" || m.GhiChu == "4" || m.GhiChu == "5")
+                    .ToList();                    
+
+                    return PartialView("_GetListKetQuaChuaIn", result);
+                }
+                else if (tenCongTy == "1" && congSo2 == "0") // có cty, ko có cổng 2
+                {
+                    var result1 = resultAwait.Where(m => m.GhiChu != null).ToList();
+
+                    var result = result1
+                        .Where(m => m.GhiChu.ToLower() == "ck")
+                        .OrderBy(m => m.TenCongTy)
+                        .ToList();                    
+
+                    return PartialView("_GetListKetQuaChuaIn", result);
+                }
+                else if (tenCongTy == "0" && congSo2 == "1") // ko có cty, có cổng 2
+                {
+                    var result1 = resultAwait.Where(m => m.GhiChu != null).ToList();
+
+                    var result = result1
+                        .Where(m => m.GhiChu.ToLower().Contains("2"))
+                        .ToList();                    
+
+                    return PartialView("_GetListKetQuaChuaIn", result);
+                }
+
+                else
+                {
+                    var result1 = resultAwait.Where(m => m.GhiChu != null).ToList();
+
+                    var result = result1
+                        .Where(m => m.GhiChu.ToLower().Contains("2") || m.GhiChu.ToLower() == "ck")
+                        .OrderBy(m => m.TenCongTy)
+                        .ToList();                    
+
+                    return PartialView("_GetListKetQuaChuaIn", result);
+                }
+
+                //var result = resultAwait.ToList();
+
+                //return PartialView("_GetListKetQuaChuaIn", result);
             }
             catch (Exception ex)
             {
@@ -65,21 +107,63 @@ namespace InKetQua.Controllers
             }
         }
 
-        public async Task<IActionResult> GetListKetQuaDaIn(DateTime tuNgay, DateTime denNgay)
+        public async Task<IActionResult> GetListKetQuaDaIn(DateTime tuNgay, DateTime denNgay, string tenCongTy, string congSo2)
         {
             try
             {
                 var pathName = System.IO.Path.Combine(_env.WebRootPath, "Query\\GetListKetQuaDaIn.txt");
-
-                
+                                
                 var tuNgay1 = tuNgay.ToString("yyyyMMdd");
                 var denNgay1 = denNgay.AddDays(1).ToString("yyyyMMdd");
 
-
                 var resultAwait = await _iKetQuaRepo.GetListKetQuaDaIn(tuNgay1, denNgay1, pathName);
-                var result = resultAwait.ToList();
 
-                return PartialView("_GetListKetQuaDaIn", result);
+                if (tenCongTy == "0" && congSo2 == "0") //ds không có hợp đồng, ko có số 2
+                {
+                    var result = resultAwait
+                        .Where(m => m.GhiChu is null || m.GhiChu.ToLower().Contains("nn") || m.GhiChu == "3" || m.GhiChu == "4" || m.GhiChu == "5")
+                        .ToList();
+
+                    return PartialView("_GetListKetQuaDaIn", result);
+                }
+                else if (tenCongTy == "1" && congSo2 == "0") // có cty, ko có cổng 2
+                {
+                    var result1 = resultAwait.Where(m => m.GhiChu != null).ToList();
+
+                    var result = result1
+                        .Where(m => m.GhiChu.ToLower() == "ck")
+                        .OrderBy(m => m.TenCongTy)
+                        .ToList();
+
+                    return PartialView("_GetListKetQuaDaIn", result);
+                }
+                else if (tenCongTy == "0" && congSo2 == "1") // ko có cty, có cổng 2
+                {
+                    var result1 = resultAwait.Where(m => m.GhiChu != null).ToList();
+
+                    var result = result1
+                        .Where(m => m.GhiChu.ToLower().Contains("2"))
+                        .ToList();
+
+                    return PartialView("_GetListKetQuaDaIn", result);
+                }
+
+                else
+                {
+                    var result1 = resultAwait.Where(m => m.GhiChu != null).ToList();
+
+                    var result = result1
+                        .Where(m => m.GhiChu.ToLower().Contains("2") || m.GhiChu.ToLower() == "ck")
+                        .OrderBy(m => m.TenCongTy)
+                        .ToList();
+
+                    return PartialView("_GetListKetQuaDaIn", result);
+                }
+
+
+                //var result = resultAwait.ToList();
+
+                //return PartialView("_GetListKetQuaDaIn", result);
             }
             catch (Exception ex)
             {
@@ -88,7 +172,7 @@ namespace InKetQua.Controllers
             }
         }
 
-        public async Task<IActionResult> InKetQua(int id)
+        public async Task<IActionResult> InKetQua(int id, string thoiGianLayMau)
         {
             try
             {
@@ -102,30 +186,41 @@ namespace InKetQua.Controllers
                     //Console.WriteLine($"{file} is deleted.");
                 }
 
+                var thoiGianLayMauDt = Convert.ToDateTime(thoiGianLayMau);
+                var thoiGianNow = DateTime.Now;
 
+                var timeSpan = thoiGianNow.Subtract(thoiGianLayMauDt);
+                var totalMinute = timeSpan.TotalMinutes;
 
-                var tuNgay = DateTime.Now.ToString("yyyyMMdd");
-                var denNgay = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
-
-                var ketQuaIn = await UpdateDaIn(id);
-                if(ketQuaIn == 1)
+                if(totalMinute < 15.0)
                 {
-                    //GetReport
-                    var reportResult = await GetReport(id, tuNgay, denNgay);
-                    if(reportResult != null)
-                    {
-                        //Inreport
-                        var fileName = PrintReport(reportResult);
-                        return Content(fileName);
-                    }
-                    else
-                    {
-                        return Content("1"); //Lấy kết quả in bị lỗi
-                    }                    
+                    return Content("3");
                 }
                 else
                 {
-                    return Content("2"); //Cập nhật kết quả in bị lỗi
+                    var tuNgay = DateTime.Now.AddDays(-1).ToString("yyyyMMdd");
+                    var denNgay = DateTime.Now.AddDays(1).ToString("yyyyMMdd");
+
+                    var ketQuaIn = await UpdateDaIn(id);
+                    if (ketQuaIn == 1)
+                    {
+                        //GetReport
+                        var reportResult = await GetReport(id, tuNgay, denNgay);
+                        if (reportResult != null)
+                        {
+                            //Inreport
+                            var fileName = PrintReport(reportResult);
+                            return Content(fileName);
+                        }
+                        else
+                        {
+                            return Content("1"); //Lấy kết quả in bị lỗi
+                        }
+                    }
+                    else
+                    {
+                        return Content("2"); //Cập nhật kết quả in bị lỗi
+                    }
                 }                
                 
             }
@@ -136,35 +231,48 @@ namespace InKetQua.Controllers
             }
         }
 
-        public async Task<IActionResult> InLaiKetQua(int id, DateTime tuNgay, DateTime denNgay)
+        public async Task<IActionResult> InLaiKetQua(int id, DateTime tuNgay, DateTime denNgay, string thoiGianLayMau)
         {
             try
             {
-                string folder = _env.WebRootPath + "\\ReportPrint";
+                var thoiGianLayMauDt = Convert.ToDateTime(thoiGianLayMau);
+                var thoiGianNow = DateTime.Now;
 
-                // Delete all files in a directory    
-                string[] files = Directory.GetFiles(folder);
-                foreach (string file in files)
+                var timeSpan = thoiGianNow.Subtract(thoiGianLayMauDt);
+                var totalMinute = timeSpan.TotalMinutes;
+
+                if (totalMinute < 15.0)
                 {
-                    System.IO.File.Delete(file);
-                    //Console.WriteLine($"{file} is deleted.");
-                }
-
-                var tuNgay1 = tuNgay.ToString("yyyyMMdd");
-                var denNgay1 = denNgay.AddDays(1).ToString("yyyyMMdd");
-
-                //GetReport
-                var reportResult = await GetReport(id, tuNgay1, denNgay1);
-                if (reportResult != null)
-                {
-                    //Inreport
-                    var fileName = PrintReport(reportResult);
-                    return Content(fileName);
+                    return Content("3");
                 }
                 else
                 {
-                    return Content("1"); //Lấy kết quả in bị lỗi
-                }
+                    string folder = _env.WebRootPath + "\\ReportPrint";
+
+                    // Delete all files in a directory    
+                    string[] files = Directory.GetFiles(folder);
+                    foreach (string file in files)
+                    {
+                        System.IO.File.Delete(file);
+                        //Console.WriteLine($"{file} is deleted.");
+                    }
+
+                    var tuNgay1 = tuNgay.AddDays(-1).ToString("yyyyMMdd");
+                    var denNgay1 = denNgay.AddDays(1).ToString("yyyyMMdd");
+
+                    //GetReport
+                    var reportResult = await GetReport(id, tuNgay1, denNgay1);
+                    if (reportResult != null)
+                    {
+                        //Inreport
+                        var fileName = PrintReport(reportResult);
+                        return Content(fileName);
+                    }
+                    else
+                    {
+                        return Content("1"); //Lấy kết quả in bị lỗi
+                    }
+                }               
 
             }
             catch (Exception ex)
@@ -174,19 +282,33 @@ namespace InKetQua.Controllers
             }
         }
 
-        public async Task<IActionResult> UploadKetQua(int id)
+        public async Task<IActionResult> UploadKetQua(int id, string thoiGianLayMau)
         {
             try
             {
-                var ketQuaIn = await UpdateDaIn(id);
-                if(ketQuaIn == 1)
+                var thoiGianLayMauDt = Convert.ToDateTime(thoiGianLayMau);
+                var thoiGianNow = DateTime.Now;
+
+                var timeSpan = thoiGianNow.Subtract(thoiGianLayMauDt);
+                var totalMinute = timeSpan.TotalMinutes;
+
+                if (totalMinute < 15.0)
                 {
-                    return Content("1");
+                    return Content("3");
                 }
                 else
                 {
-                    return Content("0");
+                    var ketQuaIn = await UpdateDaIn(id);
+                    if (ketQuaIn == 1)
+                    {
+                        return Content("1");
+                    }
+                    else
+                    {
+                        return Content("0");
+                    }
                 }
+                
             }
             catch (Exception ex)
             {
@@ -364,8 +486,41 @@ namespace InKetQua.Controllers
             }
         }
 
-               
+        public async Task<IActionResult> Admin(string matKhau)
+        {
+            //if(matKhau == "abc")
+            //{
+            //    return View();
+            //}
+            //return RedirectToAction("Index");
+            return View();
+        }
 
-        
+        public async Task<IActionResult> GetListCoKetQua(DateTime tuNgay, DateTime denNgay)
+        {
+            try
+            {
+                var pathName = System.IO.Path.Combine(_env.WebRootPath, "Query\\GetListKetQua.txt");
+
+                var tuNgay1 = tuNgay.ToString("yyyyMMdd");
+                var denNgay1 = denNgay.AddDays(1).ToString("yyyyMMdd");
+
+                var resultAwait = await _iKetQuaRepo.GetListDaKetQua(tuNgay1, denNgay1, pathName);
+
+                
+
+                var result = resultAwait.ToList();
+
+                return PartialView("_GetListDaLayMauCoKq", result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("GetListCoKetQua HomeController" + ex.Message);
+                return Content("0");
+            }
+        }
+
+
+
     }
 }

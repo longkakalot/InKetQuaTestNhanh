@@ -16,11 +16,11 @@
             <th>Năm sinh</th>
             <th>Giới tính</th>
             <th>Điện thoại</th>
-
             <th>Tên chỉ định</th>
             <th>Thời gian lấy mẫu</th>
             <th>Thời gian kết quả</th>
             <th>Đối tượng</th>
+            <th>Ghi chú</th>
             <th>Kết quả</th>
             <th style="width: 10%">#</th>
             @*<th style="width: 5%">Id</th>*@
@@ -31,60 +31,92 @@
     <tbody>
         @foreach (var item in Model.OrderBy(m => m.ThoiGianLayMau))
         {
-            <tr>
-                <td>@(stt++)</td>
-                <td style="color: blue; font-weight: bold">@item.MaYTe</td>
-                <td style="color: blue; font-weight: bold">@item.TenBenhNhan</td>
-                <td style="color: blue; font-weight: bold">@item.NamSinh</td>
-                <td>
-                    @if (item.GioiTinh == "F")
-                    {
-                        <p>Nữ</p>
-                    }
-                    else
-                    {
-                        <p>Nam</p>
-                    }
-                </td>
-                <td>@item.SoDienThoai</td>
-                <td>@item.DichVu</td>
-                <td>@item.ThoiGianLayMau</td>
-                <td>@item.ThoiGianKetQua</td>
-                <td>
-                    @if (item.ThanhToan == 0)
-                    {
-                        <span class="btn btn-info">Theo Yêu cầu</span>
-                    }
-                </td>
-                <td>
-                    @if (item.KetQua == false)
-                    {
-                        <span class="btn btn-primary">
-                            Âm tính
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="btn btn-danger">
-                            Dương tính
-                        </span>
-                    }
+        <tr>
+            <td>@(stt++)</td>
+            <td style="color: blue; font-weight: bold">@item.MaYTe</td>
+            <td style="color: blue; font-weight: bold">@item.TenBenhNhan</td>
+            <td style="color: blue; font-weight: bold">@item.NamSinh</td>
+            <td>
+                @if (item.GioiTinh == "F")
+                {
+                    <p>Nữ</p>
+                }
+                else
+                {
+                    <p>Nam</p>
+                }
+            </td>
+            <td>@item.SoDienThoai</td>
+            <td>@item.DichVu</td>
+            <td>@item.ThoiGianLayMau</td>
+            <td>@item.ThoiGianKetQua</td>
+            <td>
+                @if (item.ThanhToan == 0)
+                {
+                    <span class="btn btn-info">Theo Yêu cầu</span>
+                }
+            </td>
+            <td>
+                @if (item.GhiChu == "null" || item.GhiChu is null)
+                {
+                    <span></span>
+                }
+                else if (item.GhiChu == "2")
+                {
+                    <span>Cổng số 2</span>
+                }
+                else if (item.GhiChu == "3")
+                {
+                    <span>Cổng số 3</span>
+                }
+                else if (item.GhiChu == "4")
+                {
+                    <span>Cổng số 4</span>
+                }
+                else if (item.GhiChu == "5")
+                {
+                    <span>Cổng số 5</span>
+                }
+                else if (item.GhiChu.ToLower() == "ck")
+                {
+                    <span>Hợp đồng công ty</span>
+                }
+                else
+                {
+                    <span></span>
+                }
+            </td>
+            <td>
+                @if (item.KetQua == false)
+                {
+                    <span class="btn btn-primary">
+                        Âm tính
+                    </span>
+                }
+                else
+                {
+                    <span class="btn btn-danger">
+                        Dương tính
+                    </span>
+                }
 
 
-                </td>
-                <td>
-                    @if (item.ThanhToan == 0)
+            </td>
+            <td>
+                @if (item.GhiChu != null)
+                {
+                    @if (item.ThanhToan == 0 || item.GhiChu.ToLower() == "ck")
                     {
                         <i class="fas fa-upload"
                            style="font-size: 24px; color: green"
                            title="Upload kết quả"
-                           onclick="UploadKetQua(@item.Id)">
+                           onclick="UploadKetQua(@item.Id, '@item.ThoiGianLayMau')">
                         </i>
                         <span style="font-size: 24px; margin-right: 10px; margin-left: 10px; font-weight:bold; color: black">|</span>
                         <i class="fas fa-print"
                            title="In kết quả"
                            style="font-size: 24px; color: blue"
-                           onclick="InKetQua(@item.Id)">
+                           onclick="InKetQua(@item.Id, '@item.ThoiGianLayMau')">
                         </i>
 
                     }
@@ -93,13 +125,42 @@
                         <i class="fas fa-upload"
                            style="font-size: 24px; color: green"
                            title="Upload kết quả"
-                           onclick="UploadKetQua(@item.Id)">
+                           onclick="UploadKetQua(@item.Id,'@item.ThoiGianLayMau')">
                         </i>
                     }
-                </td>
+                }
+                else
+                {
+                    @if (item.ThanhToan == 0)
+                    {
+                        <i class="fas fa-upload"
+                           style="font-size: 24px; color: green"
+                           title="Upload kết quả"
+                           onclick="UploadKetQua(@item.Id, '@item.ThoiGianLayMau')">
+                        </i>
+                        <span style="font-size: 24px; margin-right: 10px; margin-left: 10px; font-weight:bold; color: black">|</span>
+                        <i class="fas fa-print"
+                           title="In kết quả"
+                           style="font-size: 24px; color: blue"
+                           onclick="InKetQua(@item.Id, '@item.ThoiGianLayMau')">
+                        </i>
 
-                @*<td>@item.Id</td>*@
-            </tr>
+                    }
+                    else
+                    {
+                        <i class="fas fa-upload"
+                           style="font-size: 24px; color: green"
+                           title="Upload kết quả"
+                           onclick="UploadKetQua(@item.Id,'@item.ThoiGianLayMau')">
+                        </i>
+                    }
+                }
+
+
+            </td>
+
+            @*<td>@item.Id</td>*@
+        </tr>
         }
     </tbody>
 </table>
@@ -107,19 +168,36 @@
 
 @{
     <script>
-        function UploadKetQua(id) {
+        function UploadKetQua(id, thoiGianLayMau) {
             $.ajax({
                 type: "GET",
                 url: "/Home/UploadKetQua",
                 //data: JSON.stringify(objArr),
-                data: { 'id': id },
+                data: { 'id': id, 'thoiGianLayMau': thoiGianLayMau },
                 //contentType: "application/json; charset=utf-8",
                 dataType: "text",
                 success: function (responses) {
                     if (responses === 1 || responses === "1") {
-                        GetListKetQuaChuaIn();
-                        GetListKetQuaDaIn();
-                    } else {
+                        if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                            GetListKetQuaChuaIn('1', '1');
+                            GetListKetQuaDaIn('1', '1');
+                        }
+                        else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                            GetListKetQuaChuaIn('1', '0');
+                            GetListKetQuaDaIn('1', '0');
+                        }
+                        else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                            GetListKetQuaChuaIn('0', '1');
+                            GetListKetQuaDaIn('0', '1');
+                        }
+                        else {
+                            GetListKetQuaChuaIn('0', '0');
+                            GetListKetQuaDaIn('0', '0');
+                        }
+                    } else if (responses === 3 || responses === "3") {
+                        swal.fire("Thời gian chưa đủ 15 phút", "", "warning");
+                    }
+                    else {
                         swal.fire("Upload kết quả bị lỗi");
                     }
                 },
@@ -142,23 +220,42 @@
             objFra.contentWindow.print();      // Print it.
         };
 
-        function InKetQua(id) {
+        function InKetQua(id, thoiGianLayMau) {
             $.ajax({
                 type: "GET",
                 url: "/Home/InKetQua",
                 //data: JSON.stringify(objArr),
-                data: { 'id': id },
+                data: { 'id': id, 'thoiGianLayMau': thoiGianLayMau },
                 //contentType: "application/json; charset=utf-8",
                 dataType: "text",
                 success: function (responses) {
-                    alert(responses);
+                    //alert(responses);
                     if (responses === 0 || responses === "0") {
-                        swal.fire("Lỗi khi lấy dữ liệu", "", "warning");
+                        swal.fire("Lỗi khi lấy dữ liệu", "", "warning");                        
 
-                    } else {
+                    } else if (responses === 3 || responses === "3") {
+                        swal.fire("Thời gian chưa đủ 15 phút", "", "warning");
+                        //return false;
+                    }
+
+                    else {
                         print("/ReportPrint/" + responses);
-                        GetListKetQuaChuaIn();
-                        GetListKetQuaDaIn();
+                        if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                            GetListKetQuaChuaIn('1', '1');
+                            GetListKetQuaDaIn('1', '1');
+                        }
+                        else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                            GetListKetQuaChuaIn('1', '0');
+                            GetListKetQuaDaIn('1', '0');
+                        }
+                        else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                            GetListKetQuaChuaIn('0', '1');
+                            GetListKetQuaDaIn('0', '1');
+                        }
+                        else {
+                            GetListKetQuaChuaIn('0', '0');
+                            GetListKetQuaDaIn('0', '0');
+                        }
                     }
                 },
                 failure: function (responses) {
@@ -176,8 +273,26 @@
             $('#tblDanhSachCoKetQuaChuaIn').DataTable();
 
             $("#btnXemDanhSachChuaIn").click(function () {
-                GetListKetQuaChuaIn();
-                GetListKetQuaDaIn();
+                if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                    GetListKetQuaChuaIn('1', '1');
+                    GetListKetQuaDaIn('1', '1');
+                }
+                else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                    GetListKetQuaChuaIn('1', '0');
+                    GetListKetQuaDaIn('1', '0');
+                }
+                else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                    GetListKetQuaChuaIn('0', '1');
+                    GetListKetQuaDaIn('0', '1');
+                }
+                else {
+                    GetListKetQuaChuaIn('0', '0');
+                    GetListKetQuaDaIn('0', '0');
+                }
+
+
+                //GetListKetQuaChuaIn();
+                //GetListKetQuaDaIn();
             });
         });
     </script>

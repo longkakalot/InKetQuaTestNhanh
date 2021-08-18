@@ -15,5 +15,7 @@ namespace InKetQua.Repository
 
         Task<KetQuaVm> GetKetQuaById(int id, string tuNgay, string denNgay);
         Task<int> UpdateDaIn(int id);
+
+        Task<IList<LayMauTestNhanh>> GetListDaKetQua(string tuNgay, string denNgay, string Query);
     }
 }

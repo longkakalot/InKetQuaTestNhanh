@@ -54,7 +54,7 @@ left join HoaDonChiTiet hdct on hdct.YeuCauChiTiet_Id = ct.YeuCauChiTiet_Id
 		left join HoaDon hd on hd.HoaDon_Id = hdct.HoaDon_Id
         inner join SoLanIn sl on sl.IDRef = yc.CLSYeuCau_Id
 	where yc.ThoiGianYeuCau between '{0}' and '{1}'
-		and ct.DichVu_Id in (1410,1413)
+		and ct.DichVu_Id in (803,1375,1410,1413)
         and yc.CLSYeuCau_Id in (select IDRef from SoLanIn where IDRef = yc.CLSYeuCau_Id)
         and sl.LayMau = 1
         and sl.ketqua is not null

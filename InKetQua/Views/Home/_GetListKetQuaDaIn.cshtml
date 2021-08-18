@@ -22,6 +22,7 @@
             <th >Đối tượng</th>
             <th >Kết quả</th>
             <th >#</th>
+            <th>Ghi chú</th>
             @*<th style="width: 5%">Id</th>*@
             @*<th style="width: 10%">Barcode</th>*@
 
@@ -30,57 +31,87 @@
     <tbody>
         @foreach (var item in Model.OrderBy(m => m.ThoiGianLayMau))
         {
-            <tr>
-                <td>@(stt++)</td>
-                <td style="color: blue; font-weight: bold">@item.MaYTe</td>
-                <td style="color: blue; font-weight: bold">@item.TenBenhNhan</td>
-                <td style="color: blue; font-weight: bold">@item.NamSinh</td>
-                <td>
-                    @if (item.GioiTinh == "F")
-                    {
-                        <p>Nữ</p>
-                    }
-                    else
-                    {
-                        <p>Nam</p>
-                    }
-                </td>
-                <td>@item.SoDienThoai</td>
-                <td>@item.DichVu</td>
-                <td>@item.ThoiGianLayMau</td>
-                <td>@item.ThoiGianIn</td>
-                <td>
-                    @if (item.ThanhToan == 0)
-                    {
-                        <span class="btn btn-info">Theo Yêu cầu</span>
-                    }
-                </td>
-                <td>
-                    @if (item.KetQua == false)
-                    {
-                        <span class="btn btn-primary">
-                            Âm tính
-                        </span>
-                    }
-                    else
-                    {
-                        <span class="btn btn-danger">
-                            Dương tính
-                        </span>
-                    }
+        <tr>
+            <td>@(stt++)</td>
+            <td style="color: blue; font-weight: bold">@item.MaYTe</td>
+            <td style="color: blue; font-weight: bold">@item.TenBenhNhan</td>
+            <td style="color: blue; font-weight: bold">@item.NamSinh</td>
+            <td>
+                @if (item.GioiTinh == "F")
+                {
+                    <p>Nữ</p>
+                }
+                else
+                {
+                    <p>Nam</p>
+                }
+            </td>
+            <td>@item.SoDienThoai</td>
+            <td>@item.DichVu</td>
+            <td>@item.ThoiGianLayMau</td>
+            <td>@item.ThoiGianIn</td>
+            <td>
+                @if (item.ThanhToan == 0)
+                {
+                    <span class="btn btn-info">Theo Yêu cầu</span>
+                }
+            </td>
+            <td>
+                @if (item.KetQua == false)
+                {
+                    <span class="btn btn-primary">
+                        Âm tính
+                    </span>
+                }
+                else
+                {
+                    <span class="btn btn-danger">
+                        Dương tính
+                    </span>
+                }
 
 
-                </td>
-                <td>
-                    <i class="fas fa-print"
-                       title="In kết quả"
-                       style="font-size: 24px; color: blue"
-                       onclick="InLaiKetQua(@item.Id)">
-                    </i>
-                </td>
+            </td>
+            <td>
+                <i class="fas fa-print"
+                   title="In kết quả"
+                   style="font-size: 24px; color: blue"
+                   onclick="InLaiKetQua(@item.Id, '@item.ThoiGianLayMau')">
+                </i>
+            </td>
+            <td>
+                @if (item.GhiChu == "null" || item.GhiChu is null)
+                {
+                    <span></span>
+                }
+                else if (item.GhiChu == "2")
+                {
+                    <span>Cổng số 2</span>
+                }
+                else if (item.GhiChu == "3")
+                {
+                    <span>Cổng số 3</span>
+                }
+                else if (item.GhiChu == "4")
+                {
+                    <span>Cổng số 4</span>
+                }
+                else if (item.GhiChu == "5")
+                {
+                    <span>Cổng số 5</span>
+                }
+                else if (item.GhiChu.ToLower() == "ck")
+                {
+                    <span>Hợp đồng công ty</span>
+                }
+                else
+                {
+                    <span></span>
+                }
 
-                @*<td>@item.Id</td>*@
-            </tr>
+
+            </td>
+        </tr>
         }
     </tbody>
 </table>
@@ -123,7 +154,7 @@
             objFra.contentWindow.print();      // Print it.
         };
 
-        function InLaiKetQua(id) {
+        function InLaiKetQua(id, thoiGianLayMau) {
             var tuNgay = $("#dtTuNgayTab2").val();
             var denNgay = $("#dtDenNgayTab2").val();
 
@@ -131,18 +162,18 @@
                 type: "GET",
                 url: "/Home/InLaiKetQua",
                 //data: JSON.stringify(objArr),
-                data: { 'id': id, 'tuNgay': tuNgay, 'denNgay': denNgay },
+                data: { 'id': id, 'tuNgay': tuNgay, 'denNgay': denNgay, 'thoiGianLayMau': thoiGianLayMau },
                 //contentType: "application/json; charset=utf-8",
                 dataType: "text",
                 success: function (responses) {
                     //alert(responses);
                     if (responses === 0 || responses === "0") {
                         swal.fire("Lỗi chưa rõ", "", "warning");
-
                     } else if (responses === 1 || responses === "1") {
                         swal.fire("Lấy phiếu in không được", "", "warning");
-                    }
-                    else {
+                    } else if (responses === 3 || responses === "3") {
+                        swal.fire("Thời gian dưới 15 phút", "", "warning");
+                    } else {
                         print("/ReportPrint/" + responses);
                         GetListKetQuaChuaIn();
                         GetListKetQuaDaIn();
@@ -163,8 +194,22 @@
             $('#tblDanhSachCoKetQuaDaIn').DataTable();
 
             $("#btnXemDanhSachDaIn").click(function () {
-                GetListKetQuaChuaIn();
-                GetListKetQuaDaIn();
+                if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                    GetListKetQuaChuaIn('1', '1');
+                    GetListKetQuaDaIn('1', '1');
+                }
+                else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                    GetListKetQuaChuaIn('1', '0');
+                    GetListKetQuaDaIn('1', '0');
+                }
+                else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                    GetListKetQuaChuaIn('0', '1');
+                    GetListKetQuaDaIn('0', '1');
+                }
+                else {
+                    GetListKetQuaChuaIn('0', '0');
+                    GetListKetQuaDaIn('0', '0');
+                }
             });
         });
     </script>

@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<h1>Admin</h1>
+
+<div class="card-body">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+            <div class="form-group">
+                <div class="form-inline">
+                    <span>Từ ngày: </span>
+                    <input type="date" id="dtTuNgayAdmin" class="form-control ml-2" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+            <div class="form-group">
+                <div class="form-inline">
+                    <span>Đến ngày: </span>
+                    <input type="date" id="dtDenNgayAdmin" class="form-control ml-2" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+            <button id="btnLayBaoCaoAdmin" type="button" class="btn btn-primary">Lấy dữ liệu</button>
+
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div id="divDanhSachKq"></div>
+        </div>
+    </div>
+
+
+   
+</div>
+
+@section Scripts{
+    <script>
+        
+        function GetListDaLayMauCoKq() {
+            var tuNgay = $("#dtTuNgayAdmin").val();
+            var denNgay = $("#dtDenNgayAdmin").val();
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetListCoKetQua",
+                //data: JSON.stringify(objArr),
+                data: { 'tuNgay': tuNgay, 'denNgay': denNgay },
+                //contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (responses) {
+                    if (responses === 0 || responses === "0") {
+                        swal.fire("Không lấy được thông tin");
+                    } else {
+                        $("#divDanhSachKq").html(responses);
+                    }
+                },
+                failure: function (response) {
+                    alert("failure: GetListDaLayMauCoKq Home" + response.responseText);
+                },
+                error: function (response) {
+                    alert("error: GetListDaLayMauCoKq Home" + response.responseText);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#btnLayBaoCaoAdmin").click(function () {
+                GetListDaLayMauCoKq();
+            });
+            
+        });
+    </script>
+} 

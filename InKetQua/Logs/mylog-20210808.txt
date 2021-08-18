@@ -1,0 +1,6 @@
+2021-08-08T10:44:20.0415727+07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-08-08T10:44:20.0523186+07:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-08-08T10:44:20.0639607+07:00  [INF] Content root path: "G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua" (b5d60022)
+2021-08-08T10:48:32.9307351+07:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-08-08T10:48:32.9416043+07:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-08-08T10:48:32.9439984+07:00  [INF] Content root path: "G:\SourceCodeWebApp\XNTestNhanhCovid\InKetQua\InKetQua" (b5d60022)

@@ -29,5 +29,7 @@ namespace InKetQua.Models
         public string LyDoXetNghiem { get; set; }
         public string LoaiMau { get; set; }
         public string MaCskcb { get; set; }
+        public string GhiChu { get; set; }
+        public string TenCongTy { get; set; }
     }
 }
