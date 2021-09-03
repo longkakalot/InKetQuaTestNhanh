@@ -11,7 +11,18 @@
     </div>
 
     <div class="row">
-        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 ">
+
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 ">
+            <div class="float-right">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="0" id="ckNhanVien">
+                    <label class="form-check-label" for="ckNhanVien">
+                        Nhân viên
+                    </label>
+                </div>
+            </div>
         </div>
         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 ">
             <div class="float-right">
@@ -54,8 +65,34 @@
     </div>
 
     <div class="card-body">
+
         <div class="tab-content">
             <div class="tab-pane container-fluid active" id="tab1">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <div class="form-group">
+                            <div class="form-inline">
+                                <span>Từ ngày: </span>
+                                <input type="date" id="dtTuNgayTab1" class="form-control ml-2" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <div class="form-group">
+                            <div class="form-inline">
+                                <span>Đến ngày: </span>
+                                <input type="date" id="dtDenNgayTab1" class="form-control ml-2" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <button id="btnLayBaoCaoTab1" type="button" class="btn btn-primary">Lấy dữ liệu</button>
+
+                    </div>
+                </div>
+
+                <hr />
+
                 <div id="divDanhSachKqChuaIn"></div>
             </div>
 
@@ -175,12 +212,14 @@
     <script>
 
 
-        function GetListKetQuaChuaIn(tenCongTy, congSo2) {
+        function GetListKetQuaChuaIn(tenCongTy, congSo2, nhanVien) {
+            var tuNgay = $("#dtTuNgayTab1").val();
+            var denNgay = $("#dtDenNgayTab1").val();
                 $.ajax({
                     type: "GET",
                     url: "/Home/GetListKetQuaChuaIn",
                     //data: JSON.stringify(objArr),
-                    data: { 'tenCongTy': tenCongTy, 'congSo2': congSo2 },
+                    data: { 'tenCongTy': tenCongTy, 'congSo2': congSo2, 'nhanVien': nhanVien, 'tuNgay': tuNgay, 'denNgay': denNgay,  },
                     //contentType: "application/json; charset=utf-8",
                     dataType: "text",
                     success: function (responses) {
@@ -199,7 +238,7 @@
                 });
         }
 
-        function GetListKetQuaDaIn(tenCongTy, congSo2) {
+        function GetListKetQuaDaIn(tenCongTy, congSo2, nhanVien) {
             var tuNgay = $("#dtTuNgayTab2").val();
             var denNgay = $("#dtDenNgayTab2").val();
 
@@ -208,7 +247,7 @@
                 type: "GET",
                 url: "/Home/GetListKetQuaDaIn",
                 //data: JSON.stringify(objArr),
-                data: { 'tuNgay': tuNgay, 'denNgay': denNgay, 'tenCongTy': tenCongTy, 'congSo2': congSo2 },
+                data: { 'tuNgay': tuNgay, 'denNgay': denNgay, 'tenCongTy': tenCongTy, 'congSo2': congSo2, 'nhanVien': nhanVien },
                 //contentType: "application/json; charset=utf-8",
                 dataType: "text",
                 success: function (responses) {
@@ -254,33 +293,36 @@
                 }
             });
         }
-
-        function VaoAdmin() {
-            $("#btnAdmin").click(function () {
-                $("#myModalValidate").modal('show');
-                $("#txtValidate").focus();
-            });
-
-            $("#btnCheckMaBaoMat").click(function () {
-                NhapMaBaoMat();
-            });
-        };
-
-        function NhapMaBaoMat() {
-            var inputValidate = $("#txtValidate").val();
-            var valueValidate = "abc";
-            if (inputValidate === valueValidate) {
-                $("#myModalValidate").modal('hide');
-                $("#txtValidate").val(''); 
-
-                window.location.href = '/home/admin';
+        
+        function KiemTraCheckBox() {
+            var congSo2 = "";
+            if ($("#ckCongSo2").is(":checked")) {
+                congSo2 = "1";
             }
             else {
-                alert("Mã bảo mật không đúng");
-                window.location.href = '/home/';
+                congSo2 = "0";
             }
-        };
-        
+
+            var tenCongTy = "";
+            if ($("#ckTenCongTy").is(":checked")) {
+                tenCongTy = "1";
+            }
+            else {
+                tenCongTy = "0";
+            }
+
+            var nhanVien = "";
+            if ($("#ckNhanVien").is(":checked")) {
+                nhanVien = "1";
+            }
+            else {
+                nhanVien = "0";
+            }
+            
+            GetListKetQuaChuaIn(tenCongTy, congSo2, nhanVien);
+            GetListKetQuaDaIn(tenCongTy, congSo2, nhanVien);            
+
+        }
 
         $(document).ready(function () {
             //setTimeout(function () {
@@ -288,71 +330,47 @@
 
             //}, 10000);
             $("#ckTenCongTy").click(function () {
-                var congSo2 = "";
-                if ($("#ckCongSo2").is(":checked")) {
-                    congSo2 = "1";
-                }
-                else {
-                    congSo2 = "0";
-                }
-
-                if ($("#ckTenCongTy").is(":checked")) {
-                    GetListKetQuaChuaIn('1', congSo2);
-                    GetListKetQuaDaIn('1', congSo2);
-                    //GetListDaLayMauCoKq('1', congSo2);
-                } else {
-                    GetListKetQuaChuaIn('0', congSo2);
-                    GetListKetQuaDaIn('0', congSo2);
-                    //GetListDaLayMauCoKq('0', congSo2);
-                }
+                KiemTraCheckBox();
             });
 
             $("#ckCongSo2").click(function () {
-                var tenCongTy = "";
-                if ($("#ckTenCongTy").is(":checked")) {
-                    tenCongTy = "1";
-                }
-                else {
-                    tenCongTy = "0";
-                }
-
-                if ($("#ckCongSo2").is(":checked")) {
-                    GetListKetQuaChuaIn(tenCongTy, '1');
-                    GetListKetQuaDaIn(tenCongTy, '1');
-                    //GetListDaLayMauCoKq(tenCongTy, '1');
-                } else {
-                    GetListKetQuaChuaIn(tenCongTy, '0');
-                    GetListKetQuaDaIn(tenCongTy, '0');
-                    //GetListDaLayMauCoKq(tenCongTy, '0');
-                }
+                KiemTraCheckBox();
             });
 
-            GetListKetQuaChuaIn('0','0');
+            $("#ckNhanVien").click(function () {
+                KiemTraCheckBox();
+            });
+
+            GetListKetQuaChuaIn('0', '0', '0');
+            GetListKetQuaDaIn('0', '0', '0');
             
             $("#btnLayBaoCao").click(function () {
                 LayBaoCao();
             });
 
             $("#btnLayBaoCaoTab2").click(function () {
-                if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                    GetListKetQuaDaIn('1', '1');
-                }
-                else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
-                    GetListKetQuaDaIn('1', '0');
-                }
-                else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                    GetListKetQuaDaIn('0', '1');
-                }
-                else {
-                    GetListKetQuaDaIn('0', '0');
-                }
+                //if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                //    GetListKetQuaDaIn('1', '1');
+                //}
+                //else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                //    GetListKetQuaDaIn('1', '0');
+                //}
+                //else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                //    GetListKetQuaDaIn('0', '1');
+                //}
+                //else {
+                //    GetListKetQuaDaIn('0', '0');
+                //}
 
-
-
-                //GetListKetQuaDaIn();
+                KiemTraCheckBox();
+                
             });
 
-            VaoAdmin();
+            $("#btnLayBaoCaoTab1").click(function () {                
+                KiemTraCheckBox();
+            });
+
+            //VaoAdmin();
             
         });
     </script>

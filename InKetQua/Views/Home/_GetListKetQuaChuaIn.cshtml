@@ -81,7 +81,7 @@
                 {
                     <span>Hợp đồng công ty</span>
                 }
-                else if (item.GhiChu.ToLower().Contains("nn"))
+                else if (item.GhiChu.ToLower().Contains("nv"))
                 {
                     <span>Nhân viên</span>
                 }
@@ -182,22 +182,23 @@
                 dataType: "text",
                 success: function (responses) {
                     if (responses === 1 || responses === "1") {
-                        if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                            GetListKetQuaChuaIn('1', '1');
-                            GetListKetQuaDaIn('1', '1');
-                        }
-                        else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
-                            GetListKetQuaChuaIn('1', '0');
-                            GetListKetQuaDaIn('1', '0');
-                        }
-                        else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                            GetListKetQuaChuaIn('0', '1');
-                            GetListKetQuaDaIn('0', '1');
-                        }
-                        else {
-                            GetListKetQuaChuaIn('0', '0');
-                            GetListKetQuaDaIn('0', '0');
-                        }
+                        //if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                        //    GetListKetQuaChuaIn('1', '1');
+                        //    GetListKetQuaDaIn('1', '1');
+                        //}
+                        //else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                        //    GetListKetQuaChuaIn('1', '0');
+                        //    GetListKetQuaDaIn('1', '0');
+                        //}
+                        //else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                        //    GetListKetQuaChuaIn('0', '1');
+                        //    GetListKetQuaDaIn('0', '1');
+                        //}
+                        //else {
+                        //    GetListKetQuaChuaIn('0', '0');
+                        //    GetListKetQuaDaIn('0', '0');
+                        //}
+                        KiemTraCheckBox();
                     } else if (responses === 3 || responses === "3") {
                         swal.fire("Thời gian chưa đủ 15 phút", "", "warning");
                     }
@@ -244,22 +245,23 @@
 
                     else {
                         print("/ReportPrint/" + responses);
-                        if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                            GetListKetQuaChuaIn('1', '1');
-                            GetListKetQuaDaIn('1', '1');
-                        }
-                        else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
-                            GetListKetQuaChuaIn('1', '0');
-                            GetListKetQuaDaIn('1', '0');
-                        }
-                        else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                            GetListKetQuaChuaIn('0', '1');
-                            GetListKetQuaDaIn('0', '1');
-                        }
-                        else {
-                            GetListKetQuaChuaIn('0', '0');
-                            GetListKetQuaDaIn('0', '0');
-                        }
+                        //if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                        //    GetListKetQuaChuaIn('1', '1');
+                        //    GetListKetQuaDaIn('1', '1');
+                        //}
+                        //else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                        //    GetListKetQuaChuaIn('1', '0');
+                        //    GetListKetQuaDaIn('1', '0');
+                        //}
+                        //else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                        //    GetListKetQuaChuaIn('0', '1');
+                        //    GetListKetQuaDaIn('0', '1');
+                        //}
+                        //else {
+                        //    GetListKetQuaChuaIn('0', '0');
+                        //    GetListKetQuaDaIn('0', '0');
+                        //}
+                        KiemTraCheckBox();
                     }
                 },
                 failure: function (responses) {
@@ -277,22 +279,23 @@
             $('#tblDanhSachCoKetQuaChuaIn').DataTable();
 
             $("#btnXemDanhSachChuaIn").click(function () {
-                if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                    GetListKetQuaChuaIn('1', '1');
-                    GetListKetQuaDaIn('1', '1');
-                }
-                else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
-                    GetListKetQuaChuaIn('1', '0');
-                    GetListKetQuaDaIn('1', '0');
-                }
-                else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
-                    GetListKetQuaChuaIn('0', '1');
-                    GetListKetQuaDaIn('0', '1');
-                }
-                else {
-                    GetListKetQuaChuaIn('0', '0');
-                    GetListKetQuaDaIn('0', '0');
-                }
+                //if ($("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                //    GetListKetQuaChuaIn('1', '1');
+                //    GetListKetQuaDaIn('1', '1');
+                //}
+                //else if ($("#ckTenCongTy").is(":checked") && !$("#ckCongSo2").is(":checked")) {
+                //    GetListKetQuaChuaIn('1', '0');
+                //    GetListKetQuaDaIn('1', '0');
+                //}
+                //else if (!$("#ckTenCongTy").is(":checked") && $("#ckCongSo2").is(":checked")) {
+                //    GetListKetQuaChuaIn('0', '1');
+                //    GetListKetQuaDaIn('0', '1');
+                //}
+                //else {
+                //    GetListKetQuaChuaIn('0', '0');
+                //    GetListKetQuaDaIn('0', '0');
+                //}
+                KiemTraCheckBox();
 
 
                 //GetListKetQuaChuaIn();
